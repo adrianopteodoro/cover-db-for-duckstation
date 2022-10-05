@@ -41,13 +41,15 @@ class PsxDataCenterCoverSpider(scrapy.Spider):
                 if href_data[-1] == "/":
                     yield response.follow(href_data, self.parse)
                 # get only the FRONT cover images
-                elif "-F-ALL.jpg" in href_data:
-                    try:
-                        ps1serial = re.findall(
-                            r"([A-Z]{1,4}-[0-9]{1,5})-F-ALL\.jpg", href_data
-                        )[0]
-                    except:
-                        yield
+                ps1serial = None
+                try:
+                    format1, format2 = re.findall(
+                        r"([A-Z]{1,4}-[0-9]{1,5})-F-ALL\.jpg|([A-Z]{1,4}-[0-9]{1,5})\.jpg", href_data
+                    )[0]
+                    ps1serial = format1 if format1 else format2
+                except:
+                    yield
+                if ps1serial:
                     yield CoverImageItem(
                         serial=ps1serial, image_urls=[response.urljoin(href_data)]
                     )
