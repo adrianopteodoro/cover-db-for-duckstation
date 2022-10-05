@@ -44,7 +44,7 @@ class PsxDataCenterCoverSpider(scrapy.Spider):
                 ps1serial = None
                 try:
                     format1, format2 = re.findall(
-                        r"([A-Z]{1,4}-[0-9]{1,5})-F-ALL\.jpg|([A-Z]{1,4}-[0-9]{1,5})\.jpg", href_data
+                        r"([A-Z]{3,4}-[0-9]{1,5})-F-ALL\.jpg|([A-Z]{3,4}-[0-9]{1,5})\.jpg", href_data
                     )[0]
                     ps1serial = format1 if format1 else format2
                 except:
