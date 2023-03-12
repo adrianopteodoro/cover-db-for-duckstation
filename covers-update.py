@@ -43,7 +43,7 @@ class PsxDataCenterCoverSpider(scrapy.Spider):
 
     def check_hires(self, hires_front_cover_urls: list):
         rs = (grequests.get(url) for url in hires_front_cover_urls)
-        return [(res if res.status_code == 200 else None) for res in grequests.map(rs)]
+        return [(res if res.status_code == 200 else None) for res in grequests.imap(rs)]
 
     def parse_ps1serial(
         self,
