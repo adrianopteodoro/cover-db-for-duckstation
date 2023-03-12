@@ -15,7 +15,7 @@ Go to [duckstation.org](https://www.duckstation.org/) or [Duckstation GitHub](ht
 
 - First set to game grid view mode, go to `View > Game Grid`
 
-  ![View > Game Grid](assets\duckstation-show-grid.png)
+  ![View > Game Grid](assets/duckstation-show-grid.png)
 
 - After that go to `Tools > Cover Downloader` to open cover downloader window
   
@@ -40,7 +40,7 @@ Vá para [duckstation.org](https://www.duckstation.org/) ou [Duckstation GitHub]
 
 - Primeiramente vamos mudar para o modo de visão de grades para lista de jogos, vá em `Exibir > Jogos em modo grade`
 
-  ![View > Game Grid](assets\duckstation-show-grid-br.png)
+  ![View > Game Grid](assets/duckstation-show-grid-br.png)
 
 - Depois vá em `Ferramentas > Baixar capas` para abrir a tela de baixar as capas
   
