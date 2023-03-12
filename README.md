@@ -4,6 +4,16 @@
 
 **PT-BR:** Um banco de capas para uso no Duckstation
 
+- [cover-db-for-duckstation](#cover-db-for-duckstation)
+  - [EN-US](#en-us)
+    - [DuckStation download](#duckstation-download)
+    - [Setup DuckStation to update your gamelist covers](#setup-duckstation-to-update-your-gamelist-covers)
+  - [PT-BR](#pt-br)
+    - [DuckStation download](#duckstation-download-1)
+    - [Configurar o Duckstation para atualizar as capas da sua lista de jogos](#configurar-o-duckstation-para-atualizar-as-capas-da-sua-lista-de-jogos)
+  - [Cover sources](#cover-sources)
+
+
 ## EN-US
 
 ### DuckStation download
