@@ -49,6 +49,22 @@ class PsxDataCenterCoverSpider(scrapy.Spider):
             image_urls=image_urls,
         )
 
+    def get_hires(self, href_url: str, response):
+        if href_url and "-F-ALL" in href_url:
+            hires_image_jpg = href_url.replace(".html", ".jpg")
+            image_png = href_url.replace(".html", ".png")
+            rs = (
+                grequests.get(url)
+                for url in [
+                    response.urljoin(hires_image_jpg),
+                    response.urljoin(image_png),
+                ]
+            )
+            return [res.url for res in grequests.imap(rs) if res.status_code == 200]
+
+    def get_lowres(self, href_url: str, response):
+        return [response.urljoin(href_url)] if href_url else []
+
     def parse(self, response):
         if response.url in self.start_urls:
             for href in response.xpath('//*/tr/td[@class="col1"]/a/@href'):
@@ -65,31 +81,14 @@ class PsxDataCenterCoverSpider(scrapy.Spider):
             extracted_cover_hires_image = response.xpath(
                 '//*[@id="table28"]/tr[3]/td[1]/a/@href'
             ).get()
-            if extracted_cover_hires_image:
-                extracted_cover_hires_image_jpg = extracted_cover_hires_image.replace(
-                    ".html", ".jpg"
+            extracted_cover_lowres_image = response.xpath(
+                '//*[@id="table2"]/tr[2]/td[1]/img/@src'
+            ).get()
+            cover_image_urls = self.get_hires(extracted_cover_hires_image, response)
+            if not cover_image_urls:
+                cover_image_urls = self.get_lowres(
+                    extracted_cover_lowres_image, response
                 )
-                extracted_cover_hires_image_png = extracted_cover_hires_image.replace(
-                    ".html", ".png"
-                )
-                rs = (
-                    grequests.get(url)
-                    for url in [
-                        response.urljoin(extracted_cover_hires_image_jpg),
-                        response.urljoin(extracted_cover_hires_image_png),
-                    ]
-                )
-                cover_image_urls = [
-                    res.url for res in grequests.imap(rs) if res.status_code == 200
-                ]
-            else:
-                extracted_cover_lowres_image = response.xpath(
-                    '//*[@id="table2"]/tr[2]/td[1]/img/@src'
-                ).get()
-                if extracted_cover_lowres_image:
-                    cover_image_urls = [response.urljoin(extracted_cover_lowres_image)]
-                else:
-                    cover_image_urls = []
             for serial in game_serials:
                 if (
                     cover_image_urls
@@ -110,10 +109,10 @@ process = CrawlerProcess(
             },
         },
         "IMAGES_STORE": "covers",
-        "DOWNLOAD_DELAY": 0.2,
         "ITEM_PIPELINES": {CoverImagesPipeline: 1},
         "LOG_LEVEL": "INFO",
         "REQUEST_FINGERPRINTER_IMPLEMENTATION": "2.7",
+        "AUTOTHROTTLE_ENABLED": True,
     }
 )
 
